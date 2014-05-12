@@ -1,0 +1,122 @@
+/*
+ * main.c
+ *
+ *  Created on: 11/05/2014
+ *      Author: igorsr
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define GEN_SIZE 10
+#define POP_SIZE 100
+#define TOURNAMENT_SIZE 3
+#define P_CROSSOVER 0.8
+#define P_MUTATION 0.001
+#define GENERATIONS 2
+
+typedef struct{
+	char genotype[GEN_SIZE];
+	float fitness;
+}individual;
+
+individual pop[POP_SIZE];
+
+void initialize_population(individual * pop){
+
+	int i,j;
+	for(i=0; i< POP_SIZE;i++){
+		for(j=0;j<GEN_SIZE;j++){
+			pop[i].genotype[j] = rand() % 2;
+		}
+	}
+}
+
+float fitness_function(individual * p){
+
+	float sum=0;
+	int i;
+	for(i=0; i<GEN_SIZE;i++){
+		sum+=p->genotype[i] * pow(2,i);
+	}
+	return sum;
+}
+
+/*
+ * Tournament selection
+ */
+int selection(int competitor, individual * pop){
+
+	int i, winner = competitor;
+	int partner;
+
+	for(i=0; i< TOURNAMENT_SIZE; i++){
+
+		partner = rand() % POP_SIZE;
+
+		if(pop[partner].fitness > pop[winner].fitness){
+			winner = partner;
+		}
+	}
+
+	return winner;
+}
+
+/*
+ * Single point crossover
+ * */
+void recombination(individual parents[2], individual offspring[2]){
+
+	int point = rand() % GEN_SIZE;
+	int i;
+
+	for(i=0; i <= point;i++){
+		offspring[0].genotype[i] = parents[0].genotype[i];
+		offspring[1].genotype[i] = parents[1].genotype[i];
+	}
+
+	for(i=point+1; i <GEN_SIZE;i++){
+		offspring[0].genotype[i] = parents[1].genotype[i];
+		offspring[1].genotype[i] = parents[0].genotype[i];
+	}
+}
+
+/*
+  Bit-flip mutation
+ * */
+void mutation(individual *p){
+
+	int i;
+	for(i=0;i< GEN_SIZE; i++){
+		if(rand()/RAND_MAX < P_CROSSOVER){
+			p->genotype[i] = (p->genotype[i] + 1) % 2;
+		}
+	}
+}
+
+void print_population(individual * pop){
+
+	int i,j;
+
+	for(i=0;i<POP_SIZE;i++){
+		for(j=0;j<GEN_SIZE;j++)
+			printf("%d",pop[i].genotype[j]);
+		printf("\n");
+	}
+
+}
+
+int main(int argc, char **argv){
+
+	individual pop[POP_SIZE];
+
+	initialize_population(pop);
+
+	print_population(pop);
+
+
+
+
+	return 0;
+}

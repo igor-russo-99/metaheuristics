@@ -1,0 +1,14 @@
+/*
+ * main.c
+ *
+ *  Created on: 11/05/2014
+ *      Author: igorsr
+ */
+
+int main(int argc, char **argv){
+
+
+	printf("hello!");
+
+
+}

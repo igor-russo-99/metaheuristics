@@ -1,0 +1,27 @@
+/*
+ * main.c
+ *
+ *  Created on: 11/05/2014
+ *      Author: igorsr
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define GEN_SIZE 10
+#define POP_SIZE 100
+
+typedef struct{
+	char genotype[GEN_SIZE];
+	float fitness;
+}individual;
+
+individual pop[POP_SIZE];
+
+int main(int argc, char **argv){
+
+
+	printf("hello!");
+
+
+}
