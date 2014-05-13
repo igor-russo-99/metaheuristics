@@ -132,11 +132,15 @@ int compare_individuals(const void* a, const void* b){
     return p1->fitness < p2->fitness;
 }
 
+void sort(individual * pop){	
+	qsort(pop, POP_SIZE, sizeof(individual), (int(*)(const void*, const void*))compare_individuals);
+}
+
 
 void population_replacement(individual *pop, individual * newPop){
-
-	qsort(pop,    POP_SIZE, sizeof(individual), (int(*)(const void*, const void*))compare_individuals);
-	qsort(newPop, POP_SIZE, sizeof(individual), (int(*)(const void*, const void*))compare_individuals);
+	
+	sort(pop);
+	sort(newPop);
 
 	//keeps elitist individuals
 	int j = 0, l, i;
@@ -193,6 +197,30 @@ void print_population(individual * pop){
 	}
 }
 
+void print_best(individual * pop){
+	
+	float best;
+
+	#ifdef ELITIST_SIZE 
+   	if(ELITIST_SIZE>0){	
+
+	if(pop[0].fitness > pop[ELITIST_SIZE].fitness){
+		best =  pop[0].fitness;
+	}
+	else{
+		best =  pop[ELITIST_SIZE].fitness;	
+	}
+
+	}
+	#else
+		best =  pop[0].fitness;
+	#endif
+
+	printf("Best: %f\n", best);
+	
+
+}
+
 
 int main(int argc, char **argv){
 
@@ -201,12 +229,15 @@ int main(int argc, char **argv){
 
 	initialize_population(pop);
 	evaluation(pop);
+	sort(pop);
 
 	while(generation <= GENERATIONS){
 
 		printf("-------------------------------------\n");
 		printf("Generation %d:\n", generation);
-		print_population(pop);
+		
+		print_best(pop);
+		//print_population(pop);
 
 		create_new_population(pop, newPop);
 		evaluation(newPop);
