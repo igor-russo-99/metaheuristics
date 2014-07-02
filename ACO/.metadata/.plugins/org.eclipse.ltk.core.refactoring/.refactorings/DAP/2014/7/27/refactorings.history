@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DAP/src/DAP.cpp&apos; to &apos;main.cpp&apos;" description="Rename resource &apos;DAP.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/DAP.cpp" name="main.cpp" stamp="1404323293262" updateReferences="true"/>
+</session>
