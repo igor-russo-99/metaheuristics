@@ -5,6 +5,10 @@ make all
 Building file: ../src/main.cpp
 Invoking: GCC C++ Compiler
 g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/main.d" -MT"src/main.d" -o"src/main.o" "../src/main.cpp"
+../src/main.cpp: In function ‘void ConstroiCaminho(int)’:
+../src/main.cpp:128:8: warning: unused variable ‘j’ [-Wunused-variable]
+  int i,j;
+        ^
 Finished building: ../src/main.cpp
  
 Building target: DAP

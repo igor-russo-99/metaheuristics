@@ -25,7 +25,8 @@ typedef struct{
 }type_no;
 
 typedef struct{
-	type_no caminho[MAX_ELEMENTOS];
+	char caminho[MAX_ELEMENTOS];
+	type_no programa[MAX_ELEMENTOS];
 	int tamanho;
 	float fitness;
 }type_ant;
@@ -36,7 +37,7 @@ typedef struct{
 
 type_ant * formigas;
 type_no elementos[MAX_ELEMENTOS]; //Elementos da iteração corrente
-double feromonios[MAX_ELEMENTOS][(MAX_ELEMENTOS*2)+1]; //+1 para o nó Start
+float feromonios[MAX_ELEMENTOS][(MAX_ELEMENTOS*2)+1]; //+1 para o nó Start
 
 int m_iteracoes; //Número de iterações do algoritmo
 int m_n_ants;    //Número de formigas
@@ -46,6 +47,7 @@ float m_beta;    //Fator de importância da heurística
 float m_rho;     //Taxa de evaporação dos feromônios
 float m_tal_min; //Valor mínimo de feromônio em uma aresta
 float m_tal_ins; //Valor de feromônio atribuído a uma linha/coluna inseridos
+type_ant m_best_so_far; //Melhor caminho da iteração
 
 float probabilidades[MAX_ELEMENTOS]; //Probabilidade de cada elemento ser escolhido
 char  visitados[MAX_ELEMENTOS];
@@ -63,7 +65,7 @@ void  AtualizaFeromonios();
 void  DeletaNos();
 void  InsereNos(int iteracao);
 
-/* */
+/**/
 
 int main(int argc, char * argv[]) {
 
@@ -81,6 +83,8 @@ int main(int argc, char * argv[]) {
 		for(i=0; i< m_n_ants;i++){
 			ConstroiCaminho(i);
 		}
+
+		//Obtém o melhor caminho da iteração
 
 		AtualizaFeromonios();
 		DeletaNos();
@@ -113,7 +117,7 @@ void InicializaFeromonios(){
 
 	int i,j;
 	for(i=0;i<MAX_ELEMENTOS;i++){
-		for(j=0;j<2*MAX_ELEMENTOS;j++){
+		for(j=0;j<(2*MAX_ELEMENTOS)+1;j++){
 			feromonios[i][j] = m_tal_min;
 		}
 	}
@@ -128,19 +132,54 @@ void ConstroiCaminho(int id){
 		visitados[i] = 0;
 	}
 
-	formigas[id].tamanho = 0;
-	formigas[id].caminho[0].tipo = START;
+	type_ant * formiga = &formigas[id];
 
+	formiga->tamanho = 0;
+	formiga->programa[0].tipo = START;
+
+	while(1){
+
+
+	}
 
 }
 
 float CalculaProbabilidade(int i, int j){
 
-	return 0;
+	int k;
+	float total;
+
+	for(k=0; k < m_elementos; k++){
+		if(!visitados[k]){
+			total+=feromonios[i][k];
+		}
+	}
+
+	if(total == 0){
+		total = 1;
+	}
+
+	return feromonios[i][j]/total;
 }
 
 void AtualizaFeromonios(){
 
+	int i,j,h;
+
+	//Evaporação
+	for(i=0; i< m_elementos; i++){
+		for(j=0; j< m_elementos; j++){
+			feromonios[i][j] = (1-m_rho)*feromonios[i][j];
+		}
+	}
+
+	//Reforço no caminho da melhor solução da iteração
+	for ( i = 0 ; i < m_best_so_far.tamanho; i++ ) {
+		j = m_best_so_far.caminho[i];
+		h = m_best_so_far.caminho[i+1];
+
+		feromonios[j][h] += m_best_so_far.fitness;
+	}
 }
 
 void InsereNos(int iteracao){
