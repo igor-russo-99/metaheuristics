@@ -71,14 +71,16 @@ void  ObtemParametros(int argc, char * argv[]);
 void  InicializaFeromonios();
 void  ConstroiCaminho(int id_formiga);
 float CalculaProbabilidade(int i, int j);
-float AvaliaPrograma(int * programa, int ** dados);
+float AvaliaPrograma(int id);
 void  AtualizaFeromonios();
 void  DeletaNos();
 void  DeletaNo(int k);
 void  InicializaNos();
 void  InsereNos(int iteracao);
 float randr(int min, int max);
+float rand01();
 char * ObtemNomeElemento(tp_no tipo, int valor);
+void ImprimePrograma(type_itemp *programa);
 
 /**/
 
@@ -97,6 +99,7 @@ int main(int argc, char * argv[]) {
 		/* Constrói o caminho para cada formiga */
 		for(i=0; i< m_n_ants;i++){
 			ConstroiCaminho(i);
+			AvaliaPrograma(i);
 		}
 
 		//Obtém o melhor caminho da iteração
@@ -172,25 +175,39 @@ void ConstroiCaminho(int id){
 	}
 
 	//Fila para construir a árvore do programa em largura
-	queue <type_itemp> fila;
-	fila.push(formiga->programa);
+	queue <type_itemp*> fila;
+	fila.push(&formiga->programa);
 
 	while(!fila.empty()){
 
-		type_itemp atual = fila.front();
+		type_itemp* atual = fila.front();
 		fila.pop();
 
-		for(j=0;j < atual.elemento.aridade; j++){
+		for(j=0; j<atual->elemento.aridade; j++){
 
-			selecionado = 0;
+			int maior=1;
 
-			//TODO: rever escolha baseada na "probabilidade"
-
+			//TODO: rever escolha baseada na probabilidade
+			float total=0.0f, soma_parcial=0.0f;
 			for(i=1; i<m_elementos; i++){
-				probabilidades[i] = CalculaProbabilidade((atual.indice*2)+j, i);
+				probabilidades[i] = CalculaProbabilidade((atual->indice*2)+j, i);
+				total += probabilidades[i];
 
-				if(probabilidades[i] > probabilidades[selecionado])
-					selecionado = i;
+				if(probabilidades[i] > probabilidades[maior])
+					maior = i;
+			}
+
+			aleatorio = rand01();
+			selecionado = 1;
+			soma_parcial = probabilidades[selecionado];
+
+			while(soma_parcial <= aleatorio && selecionado < m_elementos){
+				selecionado++;
+				soma_parcial += probabilidades[selecionado];
+			}
+
+			if(soma_parcial <= aleatorio && selecionado == m_elementos){
+				selecionado = maior;
 			}
 
 			//TODO: adicionar métodos para criar novos nós
@@ -200,18 +217,37 @@ void ConstroiCaminho(int id){
 			novo->indice = selecionado;
 			novo->filhos[0] = NULL;
 			novo->filhos[1] = NULL;
+			atual->filhos[j] = novo;
 
-			formiga->programa.filhos[j] = novo;
+			fila.push(novo);
 
-			fila.push(*novo);
+			if(novo->elemento.tipo == FUNCAO){
+				visitados[selecionado] = 1;
+			}
 
 			printf("Elemento adicionado: %s\n", ObtemNomeElemento(novo->elemento.tipo, (int)novo->elemento.valor));
 		}
-
 	}
+
+	printf("Programa %d: ", id);
+	ImprimePrograma(&formiga->programa);
+
+}
+
+void AvaliaPrograma(int id){
+
+	type_ant * formiga = formigas[id];
+
+
+
+
 }
 
 float CalculaProbabilidade(int i, int j){
+
+	if(visitados[j]){
+		return 0;
+	}
 
 	int k;
 	float total=0;
@@ -226,7 +262,7 @@ float CalculaProbabilidade(int i, int j){
 		total = 1;
 	}
 
-	printf("elemento=%d, total=%f, prob=%f\n",j, total, feromonios[i][j]/total);
+	//printf("elemento=%d, total=%f, prob=%f\n",j, total, feromonios[i][j]/total);
 
 	return feromonios[i][j]/total;
 }
@@ -261,8 +297,8 @@ void InicializaNos(){
 
 	for(i=0; i<NUM_TERMINAIS;i++){
 		type_no novo;
-		novo.tipo   = TERMINAL;
-		novo.valor  = i;
+		novo.tipo    = TERMINAL;
+		novo.valor   = i;
 		novo.aridade = 0;
 		elementos[m_elementos++] = novo;
 	}
@@ -403,7 +439,7 @@ char * ObtemNomeElemento(tp_no tipo, int valor){
 			case T_MUL:
 				return "*";
 			case T_DIV:
-				return "*";
+				return "/";
 			case T_SEN:
 				return "sen";
 			case T_COS:
@@ -412,6 +448,37 @@ char * ObtemNomeElemento(tp_no tipo, int valor){
 				return "erro";
 		}
 	}
+}
+
+void ImprimePrograma(type_itemp *programa){
+
+	queue<type_itemp> fila;
+	fila.push(*programa);
+
+	int altura=1, count = 0;
+
+	while(!fila.empty()){
+
+		type_itemp atual = fila.front();
+		fila.pop();
+
+		if(atual.filhos[0] != NULL){
+			fila.push(*atual.filhos[0]);
+		}
+		if(atual.filhos[1] != NULL){
+			fila.push(*atual.filhos[1]);
+		}
+
+		printf("%s ", ObtemNomeElemento(atual.elemento.tipo, (int)atual.elemento.valor));
+	}
+	printf("\n");
+
+}
+
+
+float rand01()
+{
+	return (float)rand()/(float)RAND_MAX;
 }
 
 
