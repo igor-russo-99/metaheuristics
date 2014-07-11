@@ -8,12 +8,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <queue>
+#include <math.h>
 
 using namespace std;
 
 #define MAX_ELEMENTOS 100
 #define NUM_TERMINAIS 2
 #define NUM_FUNCOES 6
+#define INFINITE 99999999999;
 
 /* Definição das estruturas de dados */
 
@@ -45,6 +47,32 @@ typedef struct{
 /**/
 
 /* Variáveis */
+/*
+float x[] = {4.242065,
+		-0.661788,
+		3.614091,
+		3.782840,
+		5.028121,
+		-2.826935,
+		-1.312550,
+		3.450526,
+		-1.944478,
+		1.093670};
+
+float y[] = {422.397797,
+		-0.321852,
+		234.488647,
+		276.997375,
+		796.610657,
+		46.438061,
+		1.116988,
+		198.194885,
+		8.780380,
+		5.028621};*/
+
+float x[] = {1.0, 2.0, 3.0};
+
+float y[] = {1.0, 2.0, 3.0};
 
 type_ant * formigas;
 type_no elementos[MAX_ELEMENTOS]; //Elementos da iteração corrente
@@ -71,7 +99,7 @@ void  ObtemParametros(int argc, char * argv[]);
 void  InicializaFeromonios();
 void  ConstroiCaminho(int id_formiga);
 float CalculaProbabilidade(int i, int j);
-float AvaliaPrograma(int id);
+void AvaliaPrograma(int id);
 void  AtualizaFeromonios();
 void  DeletaNos();
 void  DeletaNo(int k);
@@ -118,8 +146,8 @@ int main(int argc, char * argv[]) {
 
 void  ObtemParametros(int argc, char * argv[]){
 
-	m_iteracoes = 100;
-	m_n_ants  = 5;
+	m_iteracoes = 2;
+	m_n_ants  = 100;
 	m_alpha   = 0.9f;
 	m_beta    = 0.1f;
 	m_rho     = 0.0f;
@@ -168,7 +196,7 @@ void ConstroiCaminho(int id){
 
 	formiga->tamanho = 1;
 	//restantes = 1;
-	//atual=0;
+	//atual=0;fabs
 
 	for(i=0;i<m_elementos;i++){
 		visitados[i] = 0;
@@ -224,22 +252,67 @@ void ConstroiCaminho(int id){
 			if(novo->elemento.tipo == FUNCAO){
 				visitados[selecionado] = 1;
 			}
-
-			printf("Elemento adicionado: %s\n", ObtemNomeElemento(novo->elemento.tipo, (int)novo->elemento.valor));
+			//printf("Elemento adicionado: %s\n", ObtemNomeElemento(novo->elemento.tipo, (int)novo->elemento.valor));
 		}
 	}
 
 	printf("Programa %d: ", id);
 	ImprimePrograma(&formiga->programa);
+	printf("\n");
+}
 
+float Avalia(type_itemp *p, float x, float y){
+
+	if(p->elemento.tipo == TERMINAL){
+
+		switch (p->elemento.valor) {
+			case T_X:
+				return x;
+			default:
+				return 1.0f;
+		}
+	}
+	else{
+		switch (p->elemento.valor) {
+			case T_SOMA:
+				return Avalia(p->filhos[0], x, y) + Avalia(p->filhos[1], x, y);
+			case T_SUB:
+				return Avalia(p->filhos[0], x, y) - Avalia(p->filhos[1], x, y);
+			case T_MUL:
+				return Avalia(p->filhos[0], x, y) * Avalia(p->filhos[1], x, y);
+			case T_DIV:
+				return Avalia(p->filhos[0], x, y) / Avalia(p->filhos[1], x, y);
+			case T_SEN:
+				return sin(Avalia(p->filhos[0], x, y));
+			case T_COS:
+				return cos(Avalia(p->filhos[0], x, y));
+			default:
+				return 0;
+		}
+	}
 }
 
 void AvaliaPrograma(int id){
 
-	type_ant * formiga = formigas[id];
+	type_ant *formiga    = &formigas[id];
+	type_itemp *programa = &formiga->programa;
 
+	//Pula o nó START
+	programa = programa->filhos[0];
 
+	int i,j, k, n = sizeof(y)/(sizeof(float));
+	float erro = 0;
 
+	for(i=0;i<n;i++){
+		erro += pow(Avalia(programa, x[i], y[i]) - y[i],2);
+	}
+
+	formiga->fitness = 1.0f/(1.0f+erro);
+
+	if(isnan(formiga->fitness) || isinf(formiga->fitness))
+		formiga->fitness = 0;
+
+	printf("Fitness: %f\n\n", formiga->fitness);
 
 }
 
@@ -452,10 +525,77 @@ char * ObtemNomeElemento(tp_no tipo, int valor){
 
 void ImprimePrograma(type_itemp *programa){
 
-	queue<type_itemp> fila;
-	fila.push(*programa);
+	char text[MAX_ELEMENTOS];
 
-	int altura=1, count = 0;
+	if(programa->elemento.tipo == START){
+		printf("START->");
+		ImprimePrograma(programa->filhos[0]);
+	}
+	else if(programa->elemento.tipo == TERMINAL){
+
+		switch((int)programa->elemento.valor){
+			case T_X:
+				printf("X");
+				break;
+			case T_CT:
+				printf("1");
+				break;
+			default:
+				printf("erro");
+		}
+	}
+	else{
+		switch(programa->elemento.valor){
+
+			case T_SOMA:
+				printf("(");
+				ImprimePrograma(programa->filhos[0]);
+				printf("+");
+				ImprimePrograma(programa->filhos[1]);
+				printf(")");
+				break;
+			case T_SUB:
+				printf("(");
+				ImprimePrograma(programa->filhos[0]);
+				printf("-");
+				ImprimePrograma(programa->filhos[1]);
+				printf(")");
+				break;
+			case T_MUL:
+				printf("(");
+				ImprimePrograma(programa->filhos[0]);
+				printf("*");
+				ImprimePrograma(programa->filhos[1]);
+				printf(")");
+				break;
+			case T_DIV:
+				printf("(");
+				ImprimePrograma(programa->filhos[0]);
+				printf("/");
+				ImprimePrograma(programa->filhos[1]);
+				printf(")");
+				break;
+			case T_SEN:
+				printf("sen(");
+				ImprimePrograma(programa->filhos[0]);
+				printf(")");
+				break;
+			case T_COS:
+				printf("cos(");
+				ImprimePrograma(programa->filhos[0]);
+				printf(")");
+				break;
+			default:
+				printf("erro");
+				break;
+		}
+	}
+
+
+
+	/*queue<type_itemp> fila;
+	fila.push(*programa);
+	char text[MAX_ELEMENTOS];
 
 	while(!fila.empty()){
 
@@ -471,21 +611,16 @@ void ImprimePrograma(type_itemp *programa){
 
 		printf("%s ", ObtemNomeElemento(atual.elemento.tipo, (int)atual.elemento.valor));
 	}
-	printf("\n");
-
+	printf("\n");*/
 }
-
 
 float rand01()
 {
 	return (float)rand()/(float)RAND_MAX;
 }
 
-
 float randr(int min, int max)
 {
 	double scaled = (double)rand()/RAND_MAX;
 	return (max - min +1)*scaled + min;
 }
-
-
