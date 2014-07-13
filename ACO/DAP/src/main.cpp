@@ -13,10 +13,9 @@
 
 using namespace std;
 
-#define MAX_ELEMENTOS 500
+#define MAX_ELEMENTOS 200
 #define NUM_TERMINAIS 2
 #define NUM_FUNCOES 4
-#define INFINITE 99999999999;
 
 /* Definição das estruturas de dados */
 
@@ -410,10 +409,6 @@ int main(int argc, char * argv[]) {
 
 		}
 
-		AtualizaFeromonios();
-		DeletaNos();
-		InsereNos(count);
-
 		printf("Melhor programa da iteração: \n");
 		ImprimePrograma(&m_best_it.programa);
 		printf("\nFitness: %f\n", m_best_it.fitness);
@@ -428,6 +423,25 @@ int main(int argc, char * argv[]) {
 		printf("\n");
 
 
+		if (m_best_so_far.fitness>=0.9) {
+			printf("acnou\n");
+		}
+
+		printf("Antes:\n");
+
+		ImprimeTabelaFeromonios();
+
+		printf("\n\nDepois:\n\n");
+
+		AtualizaFeromonios();
+
+		ImprimeTabelaFeromonios();
+
+		DeletaNos();
+
+		InsereNos(count);
+
+		ImprimeTabelaFeromonios();
 
 		count++;
 	}
@@ -478,7 +492,6 @@ void ordena(float * p){
 void ConstroiCaminho(int id){
 
 	int i,j,selecionado;
-	float aleatorio;
 
 	type_ant * formiga = &formigas[id];
 
@@ -544,8 +557,10 @@ void ConstroiCaminho(int id){
 			}
 
 			if(tot < r && i == m_elementos){
-				//printf("selecionou o maior\n");
-				selecionado = maior;
+				printf("Isto não deveria ocorrer. Linha %d\n", __LINE__);
+				printf("Soma das probabilidades: %f\n", total);
+				ImprimeTabelaFeromonios();
+				exit(0);
 			}
 
 			//TODO: adicionar métodos para criar novos nós
@@ -567,6 +582,7 @@ void ConstroiCaminho(int id){
 			if(novo->elemento.tipo == FUNCAO){
 				visitados[selecionado] = 1;
 			}
+
 			//printf("Nó selecionado: %s\n", ObtemNomeElemento(novo->elemento.tipo, (int)novo->elemento.valor));
 		}
 	}
@@ -674,17 +690,23 @@ void AtualizaFeromonios(){
 		}
 	}
 
+	printf("Reforço:\n");
+
+
 	//Reforço de feromônios somente no caminho da melhor solução da iteração
 	for (i = 0 ; i < m_best_it.tamanho; i+=2 ) {
 
 		j = m_best_it.caminho[i];
 		h = m_best_it.caminho[i+1];
-		feromonios[j][h] += m_best_it.fitness;
+		feromonios[j][h] += m_best_it.fitness+1;
+
+		printf("(%d)->(%d), ", j,h);
 
 		if(feromonios[j][h] > m_tal_max)
 			feromonios[j][h] = m_tal_max;
-
 	}
+
+	printf("\n");
 }
 
 void InicializaNos(){
@@ -744,9 +766,22 @@ void InsereNos(int iteracao){
 	//Deve inserir outro elemento?
 	if(aleatorio <= prob){
 
+		int possuiTerminais = 0;
+
+		for(i=0; i< m_elementos; i++){
+			if(elementos[i].tipo == TERMINAL){
+				possuiTerminais = 1;
+				break;
+			}
+		}
+
 		type_no novo;
 
-		if(rand()%2 == 0){
+		/*
+		Se não possuir nenhum terminal, obrigatoriamente deve ser inserido um nó deste tipo.
+		Caso contrário o mapeamento entrará em loop infinito.
+		 */
+		if(!possuiTerminais || rand()%2 == 0){
 			//Inserir terminal
 			int elemento = rand() % NUM_TERMINAIS;
 			novo.tipo   = TERMINAL;
@@ -783,11 +818,11 @@ void InsereNos(int iteracao){
 
 void DeletaNos(){
 
-	int i,k=1+NUM_TERMINAIS, deletar;
+	int i,k=1, deletar;
 
-	/*queue<int>delecoes;
+/*	queue<int>delecoes;
 
-	for(k=1+NUM_TERMINAIS; k< m_elementos; k++){
+	for(k=1; k< m_elementos; k++){
 
 		deletar=1;
 
@@ -808,7 +843,7 @@ void DeletaNos(){
 
 	printf("\nDeveriam ser deltados: %d\n", delecoes.size());*/
 
-	k=1+NUM_TERMINAIS;
+	k=1;
 
 	while(k<m_elementos){
 
@@ -822,7 +857,7 @@ void DeletaNos(){
 		}
 
 		if(deletar){
-			//printf("\nNÓ DELETADO = %d\n", k);
+			printf("\nNÓ DELETADO = %d\n", k);
 			//printf("NÓ DELETADO\n\n");
 			DeletaNo(k);
 			//ImprimeTabelaFeromonios();
