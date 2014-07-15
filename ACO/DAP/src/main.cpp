@@ -419,8 +419,11 @@ int main(int argc, char * argv[]) {
 		printf("\nFitness: %f\n", m_best_so_far.fitness);
 		printf("\n");
 
-		if (m_best_so_far.fitness>=0.9) {
-			printf("opa, '\n");
+		if (m_best_so_far.fitness>=0.99) {
+
+			printf("A solução foi encontrada, iteração:\t%d",count);
+			exit(0);
+
 		}
 
 		/*printf("Antes:\n");
@@ -431,7 +434,7 @@ int main(int argc, char * argv[]) {
 		DeletaNos();
 		InsereNos(count);
 
-		ImprimeTabelaFeromonios();
+		//ImprimeTabelaFeromonios();
 
 		count++;
 	}
@@ -460,6 +463,7 @@ void InicializaFeromonios(){
 	feromonios = CriaTabelaFeromonios(m_elementos);
 
 	int i,j;
+
 	for(i=0;i<2*m_elementos;i++){
 		for(j=0;j< m_elementos;j++){
 			feromonios[i][j] = m_tal_ins;
@@ -532,16 +536,24 @@ void ConstroiCaminho(int id){
 					maior = i;
 			}
 
-			if(total==0.0f){
+			if(total<=0.9f){
 				printf("total das probabilidades:%f\n",total);
-				exit(0);
+				//exit(0);
 			}
 
 			//Seleção via roleta
 		    float r = rand01();
 
-		   // printf("Roleta: (r=%f )\n", r);
+		    //printf("Roleta: (r=%f )\n", r);
 			float tot = 0;
+
+			/*int asd;
+
+			for(asd=0;asd <m_elementos;asd++){
+				printf("'%s'\t", ObtemNomeElemento(elementos[asd].tipo, elementos[asd].valor));
+			}
+			printf("\n");*/
+
 			//printf("%f ", tot);
 			for (i = 1; i < m_elementos; i++) {
 				tot += probabilidades[i];
@@ -551,15 +563,8 @@ void ConstroiCaminho(int id){
 					break;
 				}
 			}
-
-			//printf("\nselecionado:%d\n", selecionado);
-
-			if(tot < r && i == m_elementos){
-				printf("Isto não deveria ocorrer. Linha %d\n", __LINE__);
-				printf("Soma das probabilidades: %f\n", total);
-				ImprimeTabelaFeromonios();
-				exit(0);
-			}
+			//printf("\n");
+			//printf("selecionado:%s\n", ObtemNomeElemento(elementos[selecionado].tipo, elementos[selecionado].valor));
 
 			//TODO: adicionar métodos para criar novos nós
 
@@ -585,9 +590,9 @@ void ConstroiCaminho(int id){
 		}
 	}
 
-	printf("Programa %d: ", id);
+	/*printf("Programa %d: ", id);
 	ImprimePrograma(&formiga->programa);
-	printf("\n");
+	printf("\n");*/
 
 }
 
@@ -688,12 +693,14 @@ void AtualizaFeromonios(){
 		}
 	}
 
-	//Reforço de feromônios somente no caminho da melhor solução da iteração
-	for (i = 0 ; i < m_best_it.tamanho-2; i+=2 ) {
+	type_ant *f = &m_best_it;
 
-		j = m_best_it.caminho[i];
-		h = m_best_it.caminho[i+1];
-		feromonios[j][h] += m_rho/m_best_it.fitness;
+	//Reforço de feromônios somente no caminho da melhor solução da iteração
+	for (i = 0 ; i < f->tamanho-1; i+=2 ) {
+
+		j = f->caminho[i];
+		h = f->caminho[i+1];
+		feromonios[j][h] += f->fitness;
 
 		//printf("(%d)->(%d), ", j,h);
 
@@ -707,7 +714,6 @@ void AtualizaFeromonios(){
 void InicializaNos(){
 
 	int i;
-	float aleatorio;
 
 	m_elementos = 0;
 
@@ -745,7 +751,7 @@ void InicializaNos(){
 
 void InsereNos(int iteracao){
 
-	int i;
+	int i, possuiTerminais;
 	float soma = 0.0f;
 	float prob, aleatorio;
 
@@ -755,37 +761,44 @@ void InsereNos(int iteracao){
 	}
 
 	soma = soma/(float)m_n_ants;
-	prob = (float)soma/((float)m_elementos);
+	prob = (float)soma/((float)m_elementos-1.0);
 	aleatorio = rand01();
 
 	//Deve inserir outro elemento?
 	if(aleatorio <= prob){
 
-		int possuiTerminais = 0;
+		possuiTerminais = 0;
 
-		for(i=0; i< m_elementos; i++){
+		for(i=0; i < m_elementos; i++){
 			if(elementos[i].tipo == TERMINAL){
 				possuiTerminais = 1;
 				break;
 			}
 		}
 
-		type_no novo;
-
-		/*
-		Se não possuir nenhum terminal, obrigatoriamente deve ser inserido um nó deste tipo.
-		Caso contrário o mapeamento entrará em loop infinito.
-		 */
-		if(!possuiTerminais || rand()%2 == 0){
+	/*	if(!possuiTerminais){
 			//Inserir terminal
 			int elemento = rand() % NUM_TERMINAIS;
+			novo.tipo   = TERMINAL;
+			novo.valor  = elemento;
+			novo.aridade = 0;
+		}*/
+
+		type_no novo;
+
+		int tipo = (int)randr(0, NUM_TERMINAIS + NUM_FUNCOES - 1);
+
+		if(tipo < NUM_TERMINAIS){
+
+			//Inserir terminal
+			int elemento = tipo;
 			novo.tipo   = TERMINAL;
 			novo.valor  = elemento;
 			novo.aridade = 0;
 		}
 		else{
 			//Inserir função
-			int elemento = rand() % NUM_FUNCOES;
+			int elemento = tipo - NUM_TERMINAIS;
 			novo.tipo    = FUNCAO;
 			novo.valor   = elemento;
 			novo.aridade = aridade_nao_terminais[elemento];
@@ -796,12 +809,28 @@ void InsereNos(int iteracao){
 		/*
 		 Depósito inicial de feromônios
 	    */
-		for(i=0;i<=2*m_elementos; i++){
+
+		/*if(m_best_it.fitness>0){
+			m_tal_ins = m_best_it.fitness;
+		}*/
+
+		if(novo.tipo == FUNCAO)
+			i = 0;
+		else{
+			i=1;
+			feromonios[0][m_elementos] = 0;
+		}
+
+		for(;i<=2*m_elementos; i++){
 			feromonios[i][m_elementos] = m_tal_ins;
 		}
-		for(i=0;i<= m_elementos; i++){
-			feromonios[2*m_elementos][i] = m_tal_ins;
-			feromonios[1+(2*m_elementos)][i] = m_tal_ins;
+
+		if(novo.tipo == FUNCAO){
+
+			for(i=0;i<= m_elementos; i++){
+				feromonios[2*m_elementos][i] = m_tal_ins;
+				feromonios[1+(2*m_elementos)][i] = m_tal_ins;
+			}
 		}
 
 		m_elementos++;
@@ -904,7 +933,11 @@ void  DeletaNo(int k){
 
 	//Exclui da lista de nós
 	for(i=k; i < m_elementos-1;i++){
-		elementos[k] = elementos[k+1];
+		elementos[i] = elementos[i+1];
+
+		/*for(j=0;j <m_elementos;j++)
+			printf("'%s'\t", ObtemNomeElemento(elementos[j].tipo, elementos[j].valor));
+		printf("\n");*/
 	}
 
 	//Exclui a coluna da tabela de feromônios (deslocando as colunas para esquerda, de k+1 até m_elementos-1)
