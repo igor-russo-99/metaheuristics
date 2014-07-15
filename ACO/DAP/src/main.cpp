@@ -15,7 +15,7 @@ using namespace std;
 
 #define MAX_ELEMENTOS 200
 #define NUM_TERMINAIS 2
-#define NUM_FUNCOES 4
+#define NUM_FUNCOES 5
 
 /* Definição das estruturas de dados */
 
@@ -423,7 +423,6 @@ int main(int argc, char * argv[]) {
 
 			printf("A solução foi encontrada, iteração:\t%d",count);
 			exit(0);
-
 		}
 
 		/*printf("Antes:\n");
@@ -776,19 +775,11 @@ void InsereNos(int iteracao){
 			}
 		}
 
-	/*	if(!possuiTerminais){
-			//Inserir terminal
-			int elemento = rand() % NUM_TERMINAIS;
-			novo.tipo   = TERMINAL;
-			novo.valor  = elemento;
-			novo.aridade = 0;
-		}*/
-
 		type_no novo;
 
 		int tipo = (int)randr(0, NUM_TERMINAIS + NUM_FUNCOES - 1);
 
-		if(tipo < NUM_TERMINAIS){
+		if(!possuiTerminais || tipo < NUM_TERMINAIS){
 
 			//Inserir terminal
 			int elemento = tipo;
@@ -814,15 +805,27 @@ void InsereNos(int iteracao){
 			m_tal_ins = m_best_it.fitness;
 		}*/
 
-		if(novo.tipo == FUNCAO)
+		/*if(novo.tipo == FUNCAO)
 			i = 0;
 		else{
 			i=1;
 			feromonios[0][m_elementos] = 0;
-		}
+		}*/
 
-		for(;i<=2*m_elementos; i++){
-			feromonios[i][m_elementos] = m_tal_ins;
+		/*
+		 * Alteração: ao invés de atribuir o feromônio máximo, adiciona o maior feromonio
+		 * da linha
+		 */
+		int l;
+		for(i=0;i<=2*m_elementos; i++){
+			feromonios[i][m_elementos] = 0; //m_tal_ins;
+
+			for(l=0;l<m_elementos;l++){
+				if(feromonios[i][l] > feromonios[i][m_elementos]){
+					feromonios[i][m_elementos] = feromonios[i][l];
+				}
+			}
+
 		}
 
 		if(novo.tipo == FUNCAO){
