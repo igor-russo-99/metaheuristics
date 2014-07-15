@@ -278,8 +278,6 @@ float x[] = {
 		0.800000,
 		0.900000,
 		1.000000
-
-
 };
 
 float y[] = {
@@ -354,7 +352,7 @@ void  ObtemParametros(int argc, char * argv[]);
 void  InicializaFeromonios();
 void  ConstroiCaminho(int id_formiga);
 float CalculaProbabilidade(int i, int j);
-void AvaliaPrograma(int id);
+void  AvaliaPrograma(int id);
 void  AtualizaFeromonios();
 void  DeletaNos();
 void  DeletaNo(int k);
@@ -376,7 +374,6 @@ int main(int argc, char * argv[]) {
 	ImprimeTabelaFeromonios();
 
 	int count = 1, i, totalNos=0;
-	float best_fitness=-1;
 
 	m_best_so_far.fitness = -1;
 
@@ -395,6 +392,7 @@ int main(int argc, char * argv[]) {
 
 		/* Constrói o caminho para cada formiga */
 		for(i=0; i< m_n_ants; i++){
+
 			ConstroiCaminho(i);
 			AvaliaPrograma(i);
 
@@ -406,7 +404,6 @@ int main(int argc, char * argv[]) {
 			ImprimePrograma(&formigas[i].programa);
 			printf("\nFitness: %f\n", formigas[i].fitness);
 			printf("\n");*/
-
 		}
 
 		printf("Melhor programa da iteração: \n");
@@ -422,23 +419,16 @@ int main(int argc, char * argv[]) {
 		printf("\nFitness: %f\n", m_best_so_far.fitness);
 		printf("\n");
 
-
 		if (m_best_so_far.fitness>=0.9) {
-			printf("acnou\n");
+			printf("opa, '\n");
 		}
 
-		printf("Antes:\n");
-
+		/*printf("Antes:\n");
 		ImprimeTabelaFeromonios();
-
-		printf("\n\nDepois:\n\n");
+		printf("\n\nDepois:\n\n");*/
 
 		AtualizaFeromonios();
-
-		ImprimeTabelaFeromonios();
-
 		DeletaNos();
-
 		InsereNos(count);
 
 		ImprimeTabelaFeromonios();
@@ -481,7 +471,6 @@ int compara_floats(const void* a, const void* b){
 
 	float* p1 = (float*)a;
 	float* p2 = (float*)b;
-
     return p1 < p2;
 }
 
@@ -526,35 +515,44 @@ void ConstroiCaminho(int id){
 		for(j=0; j < atual->elemento.aridade; j++){
 
 			int maior=1;
+			int possibilidades=0;
 			selecionado=1;
 
 			//TODO: rever escolha baseada na probabilidade
 			float total=0.0f;
 
-			for(i=1 ; i<m_elementos ; i++){
+			for(i=1; i<m_elementos; i++){
 				probabilidades[i] = CalculaProbabilidade((atual->indice*2)+j, i);
 				total += probabilidades[i];
+
+				if(probabilidades[i])
+					possibilidades++;
 
 				if(probabilidades[i] > probabilidades[maior])
 					maior = i;
 			}
 
-			//printf("total das probabilidades:%f\n",total);
-
-			/*if(total==0.0f){
-				//printf("total das probabilidades:%f\n",total);
-			}*/
+			if(total==0.0f){
+				printf("total das probabilidades:%f\n",total);
+				exit(0);
+			}
 
 			//Seleção via roleta
 		    float r = rand01();
+
+		   // printf("Roleta: (r=%f )\n", r);
 			float tot = 0;
+			//printf("%f ", tot);
 			for (i = 1; i < m_elementos; i++) {
 				tot += probabilidades[i];
+				//printf("%f ", tot);
 				if (tot >= r){
 					selecionado=i;
 					break;
 				}
 			}
+
+			//printf("\nselecionado:%d\n", selecionado);
 
 			if(tot < r && i == m_elementos){
 				printf("Isto não deveria ocorrer. Linha %d\n", __LINE__);
@@ -587,9 +585,9 @@ void ConstroiCaminho(int id){
 		}
 	}
 
-	/*printf("Programa %d: ", id);
+	printf("Programa %d: ", id);
 	ImprimePrograma(&formiga->programa);
-	printf("\n");*/
+	printf("\n");
 
 }
 
@@ -690,23 +688,20 @@ void AtualizaFeromonios(){
 		}
 	}
 
-	printf("Reforço:\n");
-
-
 	//Reforço de feromônios somente no caminho da melhor solução da iteração
-	for (i = 0 ; i < m_best_it.tamanho; i+=2 ) {
+	for (i = 0 ; i < m_best_it.tamanho-2; i+=2 ) {
 
 		j = m_best_it.caminho[i];
 		h = m_best_it.caminho[i+1];
-		feromonios[j][h] += m_best_it.fitness+1;
+		feromonios[j][h] += m_rho/m_best_it.fitness;
 
-		printf("(%d)->(%d), ", j,h);
+		//printf("(%d)->(%d), ", j,h);
 
 		if(feromonios[j][h] > m_tal_max)
 			feromonios[j][h] = m_tal_max;
 	}
 
-	printf("\n");
+	//printf("\n");
 }
 
 void InicializaNos(){
