@@ -1,0 +1,100 @@
+A solução foi encontrada	 1 	 397	START->((((X+(X/X))+sen((X-X)))*(((X*X)+1)*((X/1)/(X/X))))/1)
+A solução foi encontrada	 1 	 397	START->((((X+(X/X))+sen((X-X)))*(((X*X)+1)*((X/1)/(X/X))))/1)
+A solução foi encontrada	 1 	 397	START->((((X+(X/X))+sen((X-X)))*(((X*X)+1)*((X/1)/(X/X))))/1)
+A solução foi encontrada	 1 	 397	START->((((X+(X/X))+sen((X-X)))*(((X*X)+1)*((X/1)/(X/X))))/1)
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução foi encontrada	 1 	 25	START->(((((X*X)*X)+sen(X))-(sen(X)-X))*((X/X)+X))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 420	START->(((1+X)+(X*(X-1)))*(((X*X)+X)/1))
+A solução foi encontrada	 1 	 420	START->(((1+X)+(X*(X-1)))*(((X*X)+X)/1))
+A solução foi encontrada	 1 	 420	START->(((1+X)+(X*(X-1)))*(((X*X)+X)/1))
+A solução foi encontrada	 1 	 420	START->(((1+X)+(X*(X-1)))*(((X*X)+X)/1))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0

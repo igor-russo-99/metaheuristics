@@ -323,6 +323,7 @@ float m_rho;     //Taxa de evaporação dos feromônios
 float m_tal_min; //Valor mínimo de feromônio em uma aresta
 float m_tal_max; //Valor máximo de feromônio em uma aresta
 float m_tal_ins; //Valor de feromônio atribuído a uma linha/coluna inseridos
+int m_seed;
 type_ant m_best_so_far, m_best_it; //Melhor caminho da iteração
 
 
@@ -365,27 +366,33 @@ void ImprimePrograma(type_itemp *programa);
 void ImprimeTabelaFeromonios();
 /**/
 
+using namespace std;
+
+
 int main(int argc, char * argv[]) {
 
 	/* Inicialização */
 	ObtemParametros(argc, argv);
 	InicializaNos();
 	InicializaFeromonios();
-	ImprimeTabelaFeromonios();
+
+	//ImprimeTabelaFeromonios();
 
 	int count = 1, i, totalNos=0;
 
 	m_best_so_far.fitness = -1;
 
-	srand(time(NULL));
 
 	/* Critério de parada */
 	while(count <= m_iteracoes){
 
+#ifndef EXPERIMENTO
 		printf("===================================\n");
 		printf("Iteração %d\n", count);
 		printf("Tamanho da tabela de feromonios: %d\n", m_elementos);
 		printf("Média: %f\n", (float)totalNos/(float)count);
+#endif
+
 		totalNos+=m_elementos;
 
 		m_best_it = formigas[0];
@@ -400,42 +407,62 @@ int main(int argc, char * argv[]) {
 				m_best_it = formigas[i];
 			}
 
-			/*printf("Programa: %d\n", i);
+#ifndef EXPERIMENTO
+			printf("Programa: %d\n", i);
 			ImprimePrograma(&formigas[i].programa);
 			printf("\nFitness: %f\n", formigas[i].fitness);
-			printf("\n");*/
+			printf("\n");
+#endif
 		}
 
+#ifndef EXPERIMENTO
 		printf("Melhor programa da iteração: \n");
 		ImprimePrograma(&m_best_it.programa);
 		printf("\nFitness: %f\n", m_best_it.fitness);
 		printf("\n");
+#endif
 
 		if(m_best_it.fitness > m_best_so_far.fitness)
 			m_best_so_far = m_best_it;
 
+#ifndef EXPERIMENTO
 		printf("Melhor programa até então: \n");
 		ImprimePrograma(&m_best_so_far.programa);
 		printf("\nFitness: %f\n", m_best_so_far.fitness);
 		printf("\n");
+#endif
 
-		if (m_best_so_far.fitness>=0.99) {
+		/*if (m_best_so_far.fitness>=0.9999) {
 
-			printf("A solução foi encontrada, iteração:\t%d",count);
+			printf("A solução foi encontrada\t 1 \t%d",count);
 			exit(0);
+		}*/
+
+		if (m_best_so_far.fitness>=0.9999) {
+
+					break;
 		}
-
-		/*printf("Antes:\n");
-		ImprimeTabelaFeromonios();
-		printf("\n\nDepois:\n\n");*/
-
+s
 		AtualizaFeromonios();
 		DeletaNos();
 		InsereNos(count);
 
-		//ImprimeTabelaFeromonios();
+#ifndef EXPERIMENTO
+		ImprimeTabelaFeromonios();
+#endif
 
 		count++;
+	}
+
+	if (m_best_so_far.fitness>=0.9999) {
+
+		printf("A solução foi encontrada\t 1 \t %d\t%s", count);
+		ImprimePrograma(&m_best_so_far.programa);
+		printf("\n");
+
+	}
+	else{
+		printf("A solução nao foi encontrada\t 0\n");
 	}
 
 	return 0;
@@ -445,13 +472,31 @@ int main(int argc, char * argv[]) {
 
 void  ObtemParametros(int argc, char * argv[]){
 
-	m_iteracoes = 1000;
-	m_n_ants  = 50;
-	m_rho     = 0.5f;
-	m_tal_min = 0.01;
-	m_tal_max = 1.00f;
+	if(argc < 1){
+		printf("Usage: <m_iteracoes> <m_formigas> <m_rho> <m_tau_min> <m_tau_max> <m_seed>\n");
+		exit(0);
+	}
 
-	//Nota: interessante para incentivar escolhas de novos caminhos
+	if(argc >=7){
+
+		m_iteracoes = atoi(argv[1]);
+		m_n_ants = atoi(argv[2]);
+		m_rho = atof(argv[3]);
+		m_tal_min = atof(argv[4]);
+		m_tal_max = atof(argv[5]);
+		m_seed = atoi(argv[6]);
+		srand(m_seed);
+	}
+	else{
+
+		m_iteracoes = 1000;
+		m_n_ants  = 50;
+		m_rho     = 0.5f;
+		m_tal_min = 0.01;
+		m_tal_max = 1.00f;
+		srand(time(NULL));
+	}
+
 	m_tal_ins = m_tal_max;
 
     formigas = (type_ant *) malloc(m_n_ants * sizeof(type_ant));
@@ -535,10 +580,10 @@ void ConstroiCaminho(int id){
 					maior = i;
 			}
 
-			if(total<=0.9f){
-				printf("total das probabilidades:%f\n",total);
+			/*if(total<=0.9f){
+				//printf("total das probabilidades:%f\n",total);
 				//exit(0);
-			}
+			}*/
 
 			//Seleção via roleta
 		    float r = rand01();
@@ -801,31 +846,19 @@ void InsereNos(int iteracao){
 		 Depósito inicial de feromônios
 	    */
 
-		/*if(m_best_it.fitness>0){
-			m_tal_ins = m_best_it.fitness;
-		}*/
-
-		/*if(novo.tipo == FUNCAO)
-			i = 0;
-		else{
-			i=1;
-			feromonios[0][m_elementos] = 0;
-		}*/
-
 		/*
 		 * Alteração: ao invés de atribuir o feromônio máximo, adiciona o maior feromonio
 		 * da linha
 		 */
 		int l;
 		for(i=0;i<=2*m_elementos; i++){
-			feromonios[i][m_elementos] = 0; //m_tal_ins;
+			feromonios[i][m_elementos] = m_tal_ins;
 
 			for(l=0;l<m_elementos;l++){
 				if(feromonios[i][l] > feromonios[i][m_elementos]){
 					feromonios[i][m_elementos] = feromonios[i][l];
 				}
 			}
-
 		}
 
 		if(novo.tipo == FUNCAO){
@@ -858,6 +891,7 @@ void DeletaNos(){
 				deletar = 0;
 			}
 			else{
+
 			}
 
 		}
@@ -884,7 +918,7 @@ void DeletaNos(){
 		}
 
 		if(deletar){
-			printf("\nNÓ DELETADO = %d\n", k);
+			//printf("\nNÓ DELETADO = %d\n", k);
 			//printf("NÓ DELETADO\n\n");
 			DeletaNo(k);
 			//ImprimeTabelaFeromonios();
