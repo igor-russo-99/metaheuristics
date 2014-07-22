@@ -26,7 +26,7 @@ char aridade_nao_terminais[] = {2, 2, 2, 2, 1, 1};
 
 typedef struct{
 	tp_no tipo;
-	char valor;
+	int valor;
 	char aridade;
 }type_no;
 
@@ -38,272 +38,24 @@ typedef struct item_p{
 }type_itemp;
 
 typedef struct{
-	char caminho[2*MAX_ELEMENTOS];
+	int caminho[2*MAX_ELEMENTOS];
 	type_itemp programa;
 	int tamanho;
 	float fitness;
 }type_ant;
 
-/*p5(x)*/
-/*
-float x[] = {
-		-0.980000,
-		-0.960000,
-		-0.940000,
-		-0.920000,
-		-0.900000,
-		-0.880000,
-		-0.860000,
-		-0.840000,
-		-0.820000,
-		-0.800000,
-		-0.780000,
-		-0.760000,
-		-0.740000,
-		-0.720000,
-		-0.700000,
-		-0.680000,
-		-0.660000,
-		-0.640000,
-		-0.620000,
-		-0.600000,
-		-0.580000,
-		-0.560000,
-		-0.540000,
-		-0.520000,
-		-0.500000,
-		-0.480000,
-		-0.460000,
-		-0.440000,
-		-0.420000,
-		-0.400000,
-		-0.380000,
-		-0.360000,
-		-0.340000,
-		-0.320000,
-		-0.300000,
-		-0.280000,
-		-0.260000,
-		-0.240000,
-		-0.220000,
-		-0.200000,
-		-0.180000,
-		-0.160000,
-		-0.140000,
-		-0.120000,
-		-0.100000,
-		-0.080000,
-		-0.060000,
-		-0.040000,
-		-0.020000,
-		-0.000000,
-		0.020000,
-		0.040000,
-		0.060000,
-		0.080000,
-		0.100000,
-		0.120000,
-		0.140000,
-		0.160000,
-		0.180000,
-		0.200000,
-		0.220000,
-		0.240000,
-		0.260000,
-		0.280000,
-		0.300000,
-		0.320000,
-		0.340000,
-		0.360000,
-		0.380000,
-		0.400000,
-		0.420000,
-		0.440000,
-		0.460000,
-		0.480000,
-		0.500000,
-		0.520000,
-		0.540000,
-		0.560000,
-		0.580000,
-		0.600000,
-		0.620000,
-		0.640000,
-		0.660000,
-		0.680000,
-		0.700000,
-		0.719999,
-		0.739999,
-		0.759999,
-		0.779999,
-		0.799999,
-		0.819999,
-		0.839999,
-		0.859999,
-		0.879999,
-		0.899999,
-		0.919999,
-		0.939999,
-		0.959999,
-		0.979999,
-		0.999999
+#define STRINGIFY(A) A
+#define CONCAT(A,B,C) ABC
 
-};
+#ifndef PROBLEMA
+	#define PROBLEMA "problema1.hpp"
+#endif
 
-float y[] = {
-		-0.942345,
-		-0.889162,
-		-0.840139,
-		-0.794977,
-		-0.753390,
-		-0.715109,
-		-0.679875,
-		-0.647445,
-		-0.617586,
-		-0.590080,
-		-0.564719,
-		-0.541307,
-		-0.519659,
-		-0.499601,
-		-0.480970,
-		-0.463612,
-		-0.447382,
-		-0.432146,
-		-0.417778,
-		-0.404160,
-		-0.391183,
-		-0.378744,
-		-0.366750,
-		-0.355112,
-		-0.343750,
-		-0.332588,
-		-0.321558,
-		-0.310595,
-		-0.299640,
-		-0.288640,
-		-0.277544,
-		-0.266307,
-		-0.254884,
-		-0.243238,
-		-0.231330,
-		-0.219127,
-		-0.206595,
-		-0.193703,
-		-0.180421,
-		-0.166720,
-		-0.152571,
-		-0.137946,
-		-0.122814,
-		-0.107146,
-		-0.090910,
-		-0.074075,
-		-0.056604,
-		-0.038462,
-		-0.019608,
-		-0.000000,
-		0.020408,
-		0.041666,
-		0.063829,
-		0.086956,
-		0.111110,
-		0.136360,
-		0.162781,
-		0.190456,
-		0.219470,
-		0.249919,
-		0.281905,
-		0.315537,
-		0.350933,
-		0.388219,
-		0.427529,
-		0.469008,
-		0.512810,
-		0.559098,
-		0.608046,
-		0.659839,
-		0.714673,
-		0.772756,
-		0.834306,
-		0.899556,
-		0.968749,
-		1.042143,
-		1.120010,
-		1.202633,
-		1.290311,
-		1.383358,
-		1.482103,
-		1.586888,
-		1.698074,
-		1.816036,
-		1.941167,
-		2.073875,
-		2.214586,
-		2.363746,
-		2.521815,
-		2.689275,
-		2.866624,
-		3.054381,
-		3.253085,
-		3.463292,
-		3.685582,
-		3.920554,
-		4.168828,
-		4.431046,
-		4.707870,
-		4.999989
-};
-*/
+//#include "problema1.hpp"
+//#include "problema_2_20.hpp"
+#include "problema_3_20.hpp"
 
 /* Variáveis */
-/* Y = p4(x)*/
-float x[] = {
-
-		-0.900000,
-		-0.800000,
-		-0.700000,
-		-0.600000,
-		-0.500000,
-		-0.400000,
-		-0.300000,
-		-0.200000,
-		-0.100000,
-		0.000000,
-		0.100000,
-		0.200000,
-		0.300000,
-		0.400000,
-		0.500000,
-		0.600000,
-		0.700000,
-		0.800000,
-		0.900000,
-		1.000000
-};
-
-float y[] = {
-
-		-0.162900,
-		-0.262400,
-		-0.312900,
-		-0.326400,
-		-0.312500,
-		-0.278400,
-		-0.228900,
-		-0.166400,
-		-0.090900,
-		0.000000,
-		0.111100,
-		0.249600,
-		0.425100,
-		0.649600,
-		0.937500,
-		1.305600,
-		1.773101,
-		2.361601,
-		3.095101,
-		4.000001
-};
-
 
 /* -- Y = 3X
 float x[] = {1.0, 2.0, 3.0};
@@ -325,7 +77,6 @@ float m_tal_max; //Valor máximo de feromônio em uma aresta
 float m_tal_ins; //Valor de feromônio atribuído a uma linha/coluna inseridos
 int m_seed;
 type_ant m_best_so_far, m_best_it; //Melhor caminho da iteração
-
 
 float probabilidades[MAX_ELEMENTOS]; //Probabilidade de cada elemento ser escolhido
 char  visitados[MAX_ELEMENTOS];
@@ -373,6 +124,7 @@ int main(int argc, char * argv[]) {
 
 	/* Inicialização */
 	ObtemParametros(argc, argv);
+
 	InicializaNos();
 	InicializaFeromonios();
 
@@ -381,7 +133,6 @@ int main(int argc, char * argv[]) {
 	int count = 1, i, totalNos=0;
 
 	m_best_so_far.fitness = -1;
-
 
 	/* Critério de parada */
 	while(count <= m_iteracoes){
@@ -407,12 +158,15 @@ int main(int argc, char * argv[]) {
 				m_best_it = formigas[i];
 			}
 
+
+/*
 #ifndef EXPERIMENTO
 			printf("Programa: %d\n", i);
 			ImprimePrograma(&formigas[i].programa);
 			printf("\nFitness: %f\n", formigas[i].fitness);
 			printf("\n");
 #endif
+*/
 		}
 
 #ifndef EXPERIMENTO
@@ -432,37 +186,41 @@ int main(int argc, char * argv[]) {
 		printf("\n");
 #endif
 
-		/*if (m_best_so_far.fitness>=0.9999) {
+		if (m_best_so_far.fitness >=1.0 - pow(10, -4)) {
 
-			printf("A solução foi encontrada\t 1 \t%d",count);
-			exit(0);
-		}*/
-
-		if (m_best_so_far.fitness>=0.9999) {
-
-					break;
+			//printf("A solução foi encontrada\t 1 \t%d",count);
+			break;
 		}
-s
-		AtualizaFeromonios();
-		DeletaNos();
-		InsereNos(count);
 
-#ifndef EXPERIMENTO
-		ImprimeTabelaFeromonios();
-#endif
+		//printf("----------- Inicializando AtualizaFeromonios ----------\n");
+		AtualizaFeromonios();
+		//printf("----------- Finalizou AtualizaFeromonios ----------\n");
+
+		//printf("----------- Inicializando DeletaNos ----------\n");
+		DeletaNos();
+		//printf("----------- Finalizou DeletaNos ----------\n");
+
+		//printf("----------- Inicializando InsereNos ----------\n");
+		InsereNos(count);
+		//printf("----------- Finalizou InsereNos ----------\n");
+
+		//ImprimeTabelaFeromonios();
+
 
 		count++;
 	}
 
-	if (m_best_so_far.fitness>=0.9999) {
+	if (m_best_so_far.fitness >=1.0 - pow(10, -4)) {
 
-		printf("A solução foi encontrada\t 1 \t %d\t%s", count);
+		printf("A solução foi encontrada\t 1 \t %d\t", count);
 		ImprimePrograma(&m_best_so_far.programa);
 		printf("\n");
 
 	}
 	else{
-		printf("A solução nao foi encontrada\t 0\n");
+		printf("A solução nao foi encontrada\t 0 \t best fitness:\t%f\t", m_best_so_far.fitness);
+		ImprimePrograma(&m_best_so_far.programa);
+		printf("\n");
 	}
 
 	return 0;
@@ -486,6 +244,9 @@ void  ObtemParametros(int argc, char * argv[]){
 		m_tal_max = atof(argv[5]);
 		m_seed = atoi(argv[6]);
 		srand(m_seed);
+		//printf("Iterações:%d, formigas:%d, rho:%f, tau_min:%f, tau_max:%f, m_seed:%d\n",
+			//	m_iteracoes, m_n_ants, m_rho, m_tal_min,  m_tal_max, m_seed);
+		//printf("Seed:%d\n", m_seed);
 	}
 	else{
 
@@ -494,7 +255,7 @@ void  ObtemParametros(int argc, char * argv[]){
 		m_rho     = 0.5f;
 		m_tal_min = 0.01;
 		m_tal_max = 1.00f;
-		srand(time(NULL));
+		srand(1);
 	}
 
 	m_tal_ins = m_tal_max;
@@ -519,7 +280,7 @@ int compara_floats(const void* a, const void* b){
 
 	float* p1 = (float*)a;
 	float* p2 = (float*)b;
-    return p1 < p2;
+    return p1 > p2;
 }
 
 void ordena(float * p){
@@ -527,6 +288,8 @@ void ordena(float * p){
 }
 
 void ConstroiCaminho(int id){
+
+
 
 	int i,j,selecionado;
 
@@ -621,13 +384,21 @@ void ConstroiCaminho(int id){
 			atual->filhos[j] = novo;
 
 			fila.push(novo);
-			formiga->caminho[formiga->tamanho++] = (atual->indice*2)+j;
-			formiga->caminho[formiga->tamanho++] = selecionado;
+			formiga->caminho[formiga->tamanho] = (atual->indice*2)+j;
+			formiga->tamanho+=1;
+			//printf("indice1:%d, ", (atual->indice*2)+j);
+			formiga->caminho[formiga->tamanho] = selecionado;
+			formiga->tamanho+=1;
+			//printf("indice2:%d, ", selecionado);
 
 			//printf("tour->%d\n",formiga->caminho[formiga->tamanho-1] );
 
 			if(novo->elemento.tipo == FUNCAO){
 				visitados[selecionado] = 1;
+			}
+
+			if(formiga->caminho[formiga->tamanho-1] <0 || formiga->caminho[formiga->tamanho-2]<0){
+				printf("\n");
 			}
 
 			//printf("Nó selecionado: %s\n", ObtemNomeElemento(novo->elemento.tipo, (int)novo->elemento.valor));
@@ -641,6 +412,8 @@ void ConstroiCaminho(int id){
 }
 
 float Avalia(type_itemp *p, float x, float y){
+
+
 
 	float op1,op2;
 
@@ -677,6 +450,8 @@ float Avalia(type_itemp *p, float x, float y){
 				return 0;
 		}
 	}
+
+
 }
 
 void AvaliaPrograma(int id){
@@ -687,14 +462,14 @@ void AvaliaPrograma(int id){
 	//Pula o nó START
 	programa = programa->filhos[0];
 
-	int i,j, k, n = sizeof(y)/(sizeof(float));
+	int i, n = sizeof(y)/(sizeof(float));
 	float erro = 0;
 
 	for(i=0;i<n;i++){
-		erro += fabs(y[i] - Avalia(programa, x[i], y[i]));
+		erro += pow(y[i] - Avalia(programa, x[i], y[i]), 2);
 	}
 
-	formiga->fitness = 1.0f/(1.0f+erro);
+	formiga->fitness = 1.0f/(1.0f+(erro/n));
 
 	if(isnan(formiga->fitness) || isinf(formiga->fitness))
 		formiga->fitness = 0;
@@ -739,11 +514,18 @@ void AtualizaFeromonios(){
 
 	type_ant *f = &m_best_it;
 
+
 	//Reforço de feromônios somente no caminho da melhor solução da iteração
 	for (i = 0 ; i < f->tamanho-1; i+=2 ) {
 
+		//printf("i=%d, i+1=%d\n", i,i+1);
+
+
 		j = f->caminho[i];
+
+		//printf("j=%d, ", j);
 		h = f->caminho[i+1];
+		//printf("h=%d ", h);
 		feromonios[j][h] += f->fitness;
 
 		//printf("(%d)->(%d), ", j,h);
@@ -792,6 +574,8 @@ void InicializaNos(){
 		k++;
 	}
 }
+
+int teste=0;
 
 void InsereNos(int iteracao){
 
@@ -850,15 +634,47 @@ void InsereNos(int iteracao){
 		 * Alteração: ao invés de atribuir o feromônio máximo, adiciona o maior feromonio
 		 * da linha
 		 */
+
+		float linha[MAX_ELEMENTOS];
+
 		int l;
 		for(i=0;i<=2*m_elementos; i++){
+
+#ifdef V_1
 			feromonios[i][m_elementos] = m_tal_ins;
+#endif
+
+#ifdef V_2
+			feromonios[i][m_elementos] = -1;
 
 			for(l=0;l<m_elementos;l++){
 				if(feromonios[i][l] > feromonios[i][m_elementos]){
 					feromonios[i][m_elementos] = feromonios[i][l];
 				}
 			}
+#endif
+
+#ifdef V_3
+
+			int a;
+			for(a=0; a < m_elementos; a++){
+				linha[a] = feromonios[i][a];
+				//printf("%f,", linha[a]);
+			}
+
+			//printf("\nordenado:\n");
+			for(a=0; a < m_elementos; a++){
+			//	printf("%f,", linha[a]);
+			}
+
+			float mediana = linha[m_elementos/2];
+
+			//printf("\n selecionado: %f, M=%d\n", mediana, m_elementos);
+
+
+			feromonios[i][m_elementos] = mediana;
+#endif
+
 		}
 
 		if(novo.tipo == FUNCAO){
@@ -868,6 +684,8 @@ void InsereNos(int iteracao){
 				feromonios[1+(2*m_elementos)][i] = m_tal_ins;
 			}
 		}
+		//printf("passou aki \n");
+
 
 		m_elementos++;
 	}

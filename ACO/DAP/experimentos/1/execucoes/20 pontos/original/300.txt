@@ -1,0 +1,100 @@
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 291	START->((((X*((1+X)*X))+X)+1)*(1*X))
+A solução foi encontrada	 1 	 75	START->((X+((X/1)*(X*X)))*(X+1))
+A solução foi encontrada	 1 	 81	START->((((X*X)*X)+X)*(X+(X/X)))
+A solução foi encontrada	 1 	 163	START->((((X*(X/X))/X)*(X+1))*((X*(X*X))+X))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 83	START->(((1*X)+(X*(1-1)))*((X+(((X*1)*X)*(X+1)))+1))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 77	START->((((X*(X+(X/X)))+(X*((X*X)/(X/(X-X)))))*X)+X)
+A solução foi encontrada	 1 	 174	START->((X*((X*X)+1))*(X+1))
+A solução foi encontrada	 1 	 182	START->((1+X)*((X*(X*X))+X))
+A solução foi encontrada	 1 	 163	START->((X+(X*((X*X)*1)))*(X+1))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 86	START->((X+1)*(((X*X)*X)+X))
+A solução foi encontrada	 1 	 198	START->(((X/X)+(X*X))*(X+(X*X)))
+A solução foi encontrada	 1 	 196	START->(((X*(X*X))+X)*(X+1))
+A solução foi encontrada	 1 	 232	START->((X+(X*X))*((X*X)+1))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 206	START->(((X*(X/1))+X)*((X*X)+(X/X)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 199	START->(((((X/X)-sen(X))/(X-X))+(X*X))*(X+(X*X)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 253	START->(X+((((1+X)+(X*X))*X)*X))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 150	START->((X+1)*(X*((X*X)+((X+X)/(X-X)))))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 73	START->((((X*(1+X))+((X+1)/(X*1)))*(X/X))*(X*X))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 218	START->((X+1)*((X/(X/X))+(X*(X*X))))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 261	START->((1+(X*X))*(((X*X)/1)+X))
+A solução foi encontrada	 1 	 195	START->((X*((X*X)+(X/X)))*(X+1))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 120	START->(((1+((X+(X*X))-(X-X)))*((X*X)*1))+X)
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 161	START->(X+((((X*X)+(X/X))+X)*(X*X)))
+A solução foi encontrada	 1 	 258	START->(X*((X+1)*((X*X)+1)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 175	START->((((X*X)*X)+X)*((X/X)+X))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 250	START->(((1/(1/1))+(X*X))*(X*(X+1)))
+A solução foi encontrada	 1 	 49	START->(((X/(X*X))+X)*((X*X)*(X+(X/X))))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 165	START->((X+1)*(X*(((X/1)*X)+1)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 283	START->((X+((X*X)*X))*(X+1))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 70	START->(((1*(1-1))+X)*((1+X)*((X*X)+1)))
+A solução foi encontrada	 1 	 159	START->((X+(X*X))*(1+(X*X)))
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 228	START->((1+(X*X))*((1+X)*(1*X)))
+A solução foi encontrada	 1 	 239	START->((((((X/X)+X)*(X*X))+1)+X)*X)
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 92	START->(((((X*X)-X)+X)+X)*(1+(X*X)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 124	START->((X+((X*X)*(X/1)))*(X+1))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 137	START->((1+X)*(X+((X*X)*X)))
+A solução nao foi encontrada	 0
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 67	START->((((X*X)-(X-X))+X)*(1+(X*X)))
+A solução foi encontrada	 1 	 171	START->((((X*X)+(X-(X-1)))*(1+X))*X)
+A solução foi encontrada	 1 	 135	START->((1+X)*(X-(((1-(X+1))*X)*X)))
+A solução foi encontrada	 1 	 21	START->((X*(X+((X+(X*X))*X)))+X)
+A solução nao foi encontrada	 0
+A solução foi encontrada	 1 	 133	START->((X+1)*(((X*X)*X)+X))
+A solução foi encontrada	 1 	 59	START->((1+(X*X))*((X*X)+X))
+A solução foi encontrada	 1 	 74	START->((X+(X/X))*(((X*X)*X)+X))
+A solução foi encontrada	 1 	 71	START->((X*((X/(1/X))+1))*(X+1))
+A solução foi encontrada	 1 	 116	START->(((X*X)+1)*((X*X)+(X/1)))
+A solução foi encontrada	 1 	 89	START->(X+((X*((X*(1+X))+1))*X))
