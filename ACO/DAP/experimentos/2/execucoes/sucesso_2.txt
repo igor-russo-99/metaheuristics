@@ -1,0 +1,20 @@
+Total de execuções: 100, sucessos: 55
+Taxa de sucesso: 0.550000
+Total de execuções: 100, sucessos: 77
+Taxa de sucesso: 0.770000
+Total de execuções: 100, sucessos: 88
+Taxa de sucesso: 0.880000
+Total de execuções: 100, sucessos: 95
+Taxa de sucesso: 0.950000
+Total de execuções: 100, sucessos: 97
+Taxa de sucesso: 0.970000
+Total de execuções: 100, sucessos: 99
+Taxa de sucesso: 0.990000
+Total de execuções: 100, sucessos: 99
+Taxa de sucesso: 0.990000
+Total de execuções: 100, sucessos: 99
+Taxa de sucesso: 0.990000
+Total de execuções: 100, sucessos: 99
+Taxa de sucesso: 0.990000
+Total de execuções: 100, sucessos: 99
+Taxa de sucesso: 0.990000

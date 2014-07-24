@@ -22,7 +22,3 @@ do
     done
     
 done
-
-#Script para plotar o gráfico
-#gnuplot scripts_grafico.gnu
-#eog Experimento/grafico.png

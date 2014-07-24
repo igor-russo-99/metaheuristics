@@ -1,0 +1,11 @@
+Total de execuções: 100, sucessos: 9
+Taxa de sucesso: 0.090000
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 
+Erro no mapeamento do programa. Tamanho excedeu o máximo de elementos 

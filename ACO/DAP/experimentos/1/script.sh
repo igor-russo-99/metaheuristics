@@ -3,9 +3,7 @@
 #make -B
 #make media -B
 
-declare -i PCORES
-PCORES=4
-
+g++ ../../src/main.cpp -o dap -D EXPERIMENTO -D V_2
 
 for k in {100,200,300,400,500,600,700,800,900,1000}
 do
@@ -17,16 +15,9 @@ do
     do
         printf "Execução $i \n"
         
-        (../../src/dap $k 50 0.5 0.01 1.0 $i) >> execucoes/$k.txt    
+        (./dap $k 50 0.5 0.01 1.0 $i 1) >> execucoes/$k.txt    
     
     done
     
 done
-
-
-#Script para plotar o gráfico
-#gnuplot scripts_grafico.gnu
-#eog Experimento/grafico.png
-
-
 

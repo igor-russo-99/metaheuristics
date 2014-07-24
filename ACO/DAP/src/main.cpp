@@ -48,12 +48,12 @@ typedef struct{
 #define CONCAT(A,B,C) ABC
 
 #ifndef PROBLEMA
-	#define PROBLEMA "problema1.hpp"
+	#define PROBLEMA "problema_3_20.hpp"
 #endif
 
 //#include "problema1.hpp"
-//#include "problema_2_20.hpp"
 #include "problema_3_20.hpp"
+//#include "problema_3_20.hpp"
 
 /* Variáveis */
 
@@ -76,6 +76,7 @@ float m_tal_min; //Valor mínimo de feromônio em uma aresta
 float m_tal_max; //Valor máximo de feromônio em uma aresta
 float m_tal_ins; //Valor de feromônio atribuído a uma linha/coluna inseridos
 int m_seed;
+int m_total_execucoes;
 type_ant m_best_so_far, m_best_it; //Melhor caminho da iteração
 
 float probabilidades[MAX_ELEMENTOS]; //Probabilidade de cada elemento ser escolhido
@@ -119,109 +120,118 @@ void ImprimeTabelaFeromonios();
 
 using namespace std;
 
-
 int main(int argc, char * argv[]) {
 
 	/* Inicialização */
 	ObtemParametros(argc, argv);
 
-	InicializaNos();
-	InicializaFeromonios();
-
 	//ImprimeTabelaFeromonios();
 
 	int count = 1, i, totalNos=0;
+	int sucesso=0;
+	int execucao=1;
 
-	m_best_so_far.fitness = -1;
+	while(execucao <= m_total_execucoes){
 
-	/* Critério de parada */
-	while(count <= m_iteracoes){
+		srand(execucao);
 
-#ifndef EXPERIMENTO
-		printf("===================================\n");
-		printf("Iteração %d\n", count);
-		printf("Tamanho da tabela de feromonios: %d\n", m_elementos);
-		printf("Média: %f\n", (float)totalNos/(float)count);
-#endif
+		m_best_so_far.fitness = -1;
+		count=1;
+		totalNos=0;
 
-		totalNos+=m_elementos;
+		InicializaNos();
+		InicializaFeromonios();
 
-		m_best_it = formigas[0];
+		/* Critério de parada */
+		while(count <= m_iteracoes){
 
-		/* Constrói o caminho para cada formiga */
-		for(i=0; i< m_n_ants; i++){
+	#ifndef EXPERIMENTO
+			printf("===================================\n");
+			printf("Iteração %d\n", count);
+			printf("Tamanho da tabela de feromonios: %d\n", m_elementos);
+			printf("Média: %f\n", (float)totalNos/(float)count);
+	#endif
 
-			ConstroiCaminho(i);
-			AvaliaPrograma(i);
+			totalNos+=m_elementos;
 
-			if(formigas[i].fitness > m_best_it.fitness){
-				m_best_it = formigas[i];
+			m_best_it.fitness = -1;
+
+			/* Constrói o caminho para cada formiga */
+			for(i=0; i< m_n_ants; i++){
+
+				ConstroiCaminho(i);
+				AvaliaPrograma(i);
+
+				if(formigas[i].fitness > m_best_it.fitness){
+					m_best_it = formigas[i];
+				}
+
+	/*
+	#ifndef EXPERIMENTO
+				printf("Programa: %d\n", i);
+				ImprimePrograma(&formigas[i].programa);
+				printf("\nFitness: %f\n", formigas[i].fitness);
+				printf("\n");
+	#endif
+	*/
 			}
 
-
-/*
-#ifndef EXPERIMENTO
-			printf("Programa: %d\n", i);
-			ImprimePrograma(&formigas[i].programa);
-			printf("\nFitness: %f\n", formigas[i].fitness);
+	#ifndef EXPERIMENTO
+			printf("Melhor programa da iteração: \n");
+			ImprimePrograma(&m_best_it.programa);
+			printf("\nFitness: %f\n", m_best_it.fitness);
 			printf("\n");
-#endif
-*/
+	#endif
+
+			if(m_best_it.fitness > m_best_so_far.fitness)
+				m_best_so_far = m_best_it;
+
+	#ifndef EXPERIMENTO
+			printf("Melhor programa até então: \n");
+			ImprimePrograma(&m_best_so_far.programa);
+			printf("\nFitness: %f\n", m_best_so_far.fitness);
+			printf("\n");
+	#endif
+
+			if (m_best_so_far.fitness >=1.0 - pow(10, -4)) {
+				//printf("A solução foi encontrada\t 1 \t%d",count);
+				break;
+			}
+
+			//printf("----------- Inicializando AtualizaFeromonios ----------\n");
+			AtualizaFeromonios();
+			//printf("----------- Finalizou AtualizaFeromonios ----------\n");
+
+			//printf("----------- Inicializando DeletaNos ----------\n");
+			DeletaNos();
+			//printf("----------- Finalizou DeletaNos ----------\n");
+
+			//printf("----------- Inicializando InsereNos ----------\n");
+			InsereNos(count);
+			//printf("----------- Finalizou InsereNos ----------\n");
+
+			//ImprimeTabelaFeromonios();
+			count++;
 		}
 
-#ifndef EXPERIMENTO
-		printf("Melhor programa da iteração: \n");
-		ImprimePrograma(&m_best_it.programa);
-		printf("\nFitness: %f\n", m_best_it.fitness);
-		printf("\n");
-#endif
+		if (m_best_so_far.fitness >= 1.0 - pow(10, -4)) {
 
-		if(m_best_it.fitness > m_best_so_far.fitness)
-			m_best_so_far = m_best_it;
-
-#ifndef EXPERIMENTO
-		printf("Melhor programa até então: \n");
-		ImprimePrograma(&m_best_so_far.programa);
-		printf("\nFitness: %f\n", m_best_so_far.fitness);
-		printf("\n");
-#endif
-
-		if (m_best_so_far.fitness >=1.0 - pow(10, -4)) {
-
-			//printf("A solução foi encontrada\t 1 \t%d",count);
-			break;
+			/*printf("A solução foi encontrada\t 1 \t %d\t", count);
+			ImprimePrograma(&m_best_so_far.programa);
+			printf("\n");*/
+			sucesso++;
+		}
+		else{
+			//printf("A solução nao foi encontrada\t 0 \t best fitness:\t%f\t", m_best_so_far.fitness);
+			//ImprimePrograma(&m_best_so_far.programa);
+			//printf("\n");
 		}
 
-		//printf("----------- Inicializando AtualizaFeromonios ----------\n");
-		AtualizaFeromonios();
-		//printf("----------- Finalizou AtualizaFeromonios ----------\n");
-
-		//printf("----------- Inicializando DeletaNos ----------\n");
-		DeletaNos();
-		//printf("----------- Finalizou DeletaNos ----------\n");
-
-		//printf("----------- Inicializando InsereNos ----------\n");
-		InsereNos(count);
-		//printf("----------- Finalizou InsereNos ----------\n");
-
-		//ImprimeTabelaFeromonios();
-
-
-		count++;
+		execucao++;
 	}
 
-	if (m_best_so_far.fitness >=1.0 - pow(10, -4)) {
-
-		printf("A solução foi encontrada\t 1 \t %d\t", count);
-		ImprimePrograma(&m_best_so_far.programa);
-		printf("\n");
-
-	}
-	else{
-		printf("A solução nao foi encontrada\t 0 \t best fitness:\t%f\t", m_best_so_far.fitness);
-		ImprimePrograma(&m_best_so_far.programa);
-		printf("\n");
-	}
+	printf("Total de execuções: %d, sucessos: %d\n", m_total_execucoes, sucesso);
+	printf("Taxa de sucesso: %f\n", (float)sucesso/(float)m_total_execucoes);
 
 	return 0;
 }
@@ -231,7 +241,7 @@ int main(int argc, char * argv[]) {
 void  ObtemParametros(int argc, char * argv[]){
 
 	if(argc < 1){
-		printf("Usage: <m_iteracoes> <m_formigas> <m_rho> <m_tau_min> <m_tau_max> <m_seed>\n");
+		printf("Usage: <m_iteracoes> <m_formigas> <m_rho> <m_tau_min> <m_tau_max> <m_seed> <m_total_execucoes>\n");
 		exit(0);
 	}
 
@@ -243,19 +253,19 @@ void  ObtemParametros(int argc, char * argv[]){
 		m_tal_min = atof(argv[4]);
 		m_tal_max = atof(argv[5]);
 		m_seed = atoi(argv[6]);
-		srand(m_seed);
+		m_total_execucoes = atoi(argv[7]);
+		//srand(m_seed);
 		//printf("Iterações:%d, formigas:%d, rho:%f, tau_min:%f, tau_max:%f, m_seed:%d\n",
-			//	m_iteracoes, m_n_ants, m_rho, m_tal_min,  m_tal_max, m_seed);
+		//m_iteracoes, m_n_ants, m_rho, m_tal_min,  m_tal_max, m_seed);
 		//printf("Seed:%d\n", m_seed);
 	}
 	else{
-
 		m_iteracoes = 1000;
 		m_n_ants  = 50;
 		m_rho     = 0.5f;
 		m_tal_min = 0.01;
 		m_tal_max = 1.00f;
-		srand(1);
+		srand(time(NULL));
 	}
 
 	m_tal_ins = m_tal_max;
@@ -265,12 +275,20 @@ void  ObtemParametros(int argc, char * argv[]){
 
 void InicializaFeromonios(){
 
-	feromonios = CriaTabelaFeromonios(m_elementos);
+	if(feromonios == NULL){
+		feromonios = CriaTabelaFeromonios(m_elementos);
+	}
 
 	int i,j;
 
+	for(i=0;i<2*MAX_ELEMENTOS;i++){
+		for(j=0;j<MAX_ELEMENTOS;j++){
+			feromonios[i][j] = 0;
+		}
+	}
+
 	for(i=0;i<2*m_elementos;i++){
-		for(j=0;j< m_elementos;j++){
+		for(j=0;j<m_elementos;j++){
 			feromonios[i][j] = m_tal_ins;
 		}
 	}
@@ -288,8 +306,6 @@ void ordena(float * p){
 }
 
 void ConstroiCaminho(int id){
-
-
 
 	int i,j,selecionado;
 
@@ -329,7 +345,6 @@ void ConstroiCaminho(int id){
 			int possibilidades=0;
 			selecionado=1;
 
-			//TODO: rever escolha baseada na probabilidade
 			float total=0.0f;
 
 			for(i=1; i<m_elementos; i++){
@@ -351,26 +366,15 @@ void ConstroiCaminho(int id){
 			//Seleção via roleta
 		    float r = rand01();
 
-		    //printf("Roleta: (r=%f )\n", r);
 			float tot = 0;
 
-			/*int asd;
-
-			for(asd=0;asd <m_elementos;asd++){
-				printf("'%s'\t", ObtemNomeElemento(elementos[asd].tipo, elementos[asd].valor));
-			}
-			printf("\n");*/
-
-			//printf("%f ", tot);
 			for (i = 1; i < m_elementos; i++) {
 				tot += probabilidades[i];
-				//printf("%f ", tot);
 				if (tot >= r){
 					selecionado=i;
 					break;
 				}
 			}
-			//printf("\n");
 			//printf("selecionado:%s\n", ObtemNomeElemento(elementos[selecionado].tipo, elementos[selecionado].valor));
 
 			//TODO: adicionar métodos para criar novos nós
@@ -386,12 +390,8 @@ void ConstroiCaminho(int id){
 			fila.push(novo);
 			formiga->caminho[formiga->tamanho] = (atual->indice*2)+j;
 			formiga->tamanho+=1;
-			//printf("indice1:%d, ", (atual->indice*2)+j);
 			formiga->caminho[formiga->tamanho] = selecionado;
 			formiga->tamanho+=1;
-			//printf("indice2:%d, ", selecionado);
-
-			//printf("tour->%d\n",formiga->caminho[formiga->tamanho-1] );
 
 			if(novo->elemento.tipo == FUNCAO){
 				visitados[selecionado] = 1;
@@ -408,12 +408,9 @@ void ConstroiCaminho(int id){
 	/*printf("Programa %d: ", id);
 	ImprimePrograma(&formiga->programa);
 	printf("\n");*/
-
 }
 
 float Avalia(type_itemp *p, float x, float y){
-
-
 
 	float op1,op2;
 
@@ -437,7 +434,6 @@ float Avalia(type_itemp *p, float x, float y){
 			case T_DIV:
 				op1 = Avalia(p->filhos[0], x, y);
 				op2 = Avalia(p->filhos[1], x, y);
-
 				if(op2 != 0)
 					return op1/op2;
 				else
@@ -450,8 +446,6 @@ float Avalia(type_itemp *p, float x, float y){
 				return 0;
 		}
 	}
-
-
 }
 
 void AvaliaPrograma(int id){
@@ -496,8 +490,6 @@ float CalculaProbabilidade(int i, int j){
 		total = 1;
 	}
 
-	//printf("elemento=%d, total=%f, prob=%f\n",j, total, feromonios[i][j]/total);
-
 	return feromonios[i][j]/(total);
 }
 
@@ -514,27 +506,17 @@ void AtualizaFeromonios(){
 
 	type_ant *f = &m_best_it;
 
-
 	//Reforço de feromônios somente no caminho da melhor solução da iteração
 	for (i = 0 ; i < f->tamanho-1; i+=2 ) {
 
-		//printf("i=%d, i+1=%d\n", i,i+1);
-
-
 		j = f->caminho[i];
-
-		//printf("j=%d, ", j);
 		h = f->caminho[i+1];
-		//printf("h=%d ", h);
-		feromonios[j][h] += f->fitness;
 
-		//printf("(%d)->(%d), ", j,h);
+		feromonios[j][h] += f->fitness;
 
 		if(feromonios[j][h] > m_tal_max)
 			feromonios[j][h] = m_tal_max;
 	}
-
-	//printf("\n");
 }
 
 void InicializaNos(){
@@ -575,16 +557,13 @@ void InicializaNos(){
 	}
 }
 
-int teste=0;
-
 void InsereNos(int iteracao){
 
 	int i, possuiTerminais;
 	float soma = 0.0f;
 	float prob, aleatorio;
 
-	/* Dúvida: no paper está "número de nós gerados por cada formiga" */
-	for(i=0 ; i<m_n_ants ; i++ ){
+	for(i=0 ; i <m_n_ants ; i++ ){
 		soma+=(formigas[i].tamanho)/2;
 	}
 
@@ -635,10 +614,18 @@ void InsereNos(int iteracao){
 		 * da linha
 		 */
 
-		float linha[MAX_ELEMENTOS];
 
-		int l;
-		for(i=0;i<=2*m_elementos; i++){
+		if(novo.tipo == TERMINAL){
+			feromonios[0][m_elementos] = 0;
+			i=1;
+		}
+		else{
+			i=0;
+		}
+
+		for(;i<=2*m_elementos; i++){
+
+//#define V_2
 
 #ifdef V_1
 			feromonios[i][m_elementos] = m_tal_ins;
@@ -646,7 +633,7 @@ void InsereNos(int iteracao){
 
 #ifdef V_2
 			feromonios[i][m_elementos] = -1;
-
+			int l;
 			for(l=0;l<m_elementos;l++){
 				if(feromonios[i][l] > feromonios[i][m_elementos]){
 					feromonios[i][m_elementos] = feromonios[i][l];
@@ -656,6 +643,7 @@ void InsereNos(int iteracao){
 
 #ifdef V_3
 
+			float linha[MAX_ELEMENTOS];
 			int a;
 			for(a=0; a < m_elementos; a++){
 				linha[a] = feromonios[i][a];
@@ -684,8 +672,6 @@ void InsereNos(int iteracao){
 				feromonios[1+(2*m_elementos)][i] = m_tal_ins;
 			}
 		}
-		//printf("passou aki \n");
-
 
 		m_elementos++;
 	}
@@ -697,32 +683,6 @@ void InsereNos(int iteracao){
 void DeletaNos(){
 
 	int i,k=1, deletar;
-
-/*	queue<int>delecoes;
-
-	for(k=1; k< m_elementos; k++){
-
-		deletar=1;
-
-		for(i=0;i<= 2*m_elementos; i++){
-			if(feromonios[i][k] >= m_tal_min){
-				deletar = 0;
-			}
-			else{
-
-			}
-
-		}
-
-		if(deletar){
-			printf("%d ", k);
-			delecoes.push(k);
-		}
-	}
-
-	printf("\nDeveriam ser deltados: %d\n", delecoes.size());*/
-
-	k=1;
 
 	while(k<m_elementos){
 
@@ -750,41 +710,6 @@ void DeletaNos(){
 void  DeletaNo(int k){
 
 	int i,j;
-
-	/*float **t2 = CriaTabelaFeromonios(m_elementos);
-
-	//2
-	for(i=0; i< 2*k ; i++){
-		for(j=0; j < k; j++){
-			t2[i][j] = feromonios[i][j];
-		}
-	}
-
-	//3
-	for(i=(2*k)+2; i< 2*m_elementos ; i++){
-		for(j=0; j < k; j++){
-			t2[i][j] = feromonios[i][j];
-		}
-	}
-
-	//1
-	for(i=0; i< 2*k; i++){
-		for(j=k+1; j < m_elementos; j++){
-			t2[i][j] = feromonios[i][j];
-		}
-	}
-
-	//4
-	for(i= (2*k)+2 ; i< 2*m_elementos; i++){
-		for(j=k+1; j < m_elementos; j++){
-			t2[i][j] = feromonios[i][j];
-		}
-	}
-	free(feromonios);
-
-	feromonios = t2;
-	*/
-
 
 	//Exclui da lista de nós
 	for(i=k; i < m_elementos-1;i++){
@@ -919,27 +844,6 @@ void ImprimePrograma(type_itemp *programa){
 		}
 	}
 
-
-
-	/*queue<type_itemp> fila;
-	fila.push(*programa);
-	char text[MAX_ELEMENTOS];
-
-	while(!fila.empty()){
-
-		type_itemp atual = fila.front();
-		fila.pop();
-
-		if(atual.filhos[0] != NULL){
-			fila.push(*atual.filhos[0]);
-		}
-		if(atual.filhos[1] != NULL){
-			fila.push(*atual.filhos[1]);
-		}
-
-		printf("%s ", ObtemNomeElemento(atual.elemento.tipo, (int)atual.elemento.valor));
-	}
-	printf("\n");*/
 }
 
 float rand01()
